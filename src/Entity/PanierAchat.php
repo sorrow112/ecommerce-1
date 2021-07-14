@@ -22,15 +22,17 @@ class PanierAchat
      */
     private $date_de_creation;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=client::class, inversedBy="panierAchats")
-     */
-    private $client;
+
 
     /**
      * @ORM\OneToOne(targetEntity=commande::class, cascade={"persist", "remove"})
      */
     private $commande;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="panierAchats")
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -49,17 +51,7 @@ class PanierAchat
         return $this;
     }
 
-    public function getClient(): ?client
-    {
-        return $this->client;
-    }
 
-    public function setClient(?client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getCommande(): ?commande
     {
@@ -69,6 +61,18 @@ class PanierAchat
     public function setCommande(?commande $commande): self
     {
         $this->commande = $commande;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

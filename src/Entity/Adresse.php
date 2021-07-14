@@ -39,16 +39,18 @@ class Adresse
      */
     private $full_address;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="adresses")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="address")
      */
     private $commandes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="adresses")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -108,17 +110,7 @@ class Adresse
         return $this;
     }
 
-    public function getUser(): ?user
-    {
-        return $this->user;
-    }
 
-    public function setUser(?user $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Commande[]
@@ -146,6 +138,18 @@ class Adresse
                 $commande->setAddress(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

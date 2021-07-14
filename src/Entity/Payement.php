@@ -28,9 +28,11 @@ class Payement
     private $montant;
 
     /**
-     * @ORM\ManyToOne(targetEntity=client::class, inversedBy="payements")
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="payements")
      */
-    private $client;
+    private $user;
+
+
 
     public function getId(): ?int
     {
@@ -61,15 +63,17 @@ class Payement
         return $this;
     }
 
-    public function getClient(): ?client
+    public function getUser(): ?user
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?client $client): self
+    public function setUser(?user $user): self
     {
-        $this->client = $client;
+        $this->user = $user;
 
         return $this;
     }
+
+
 }

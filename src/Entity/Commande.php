@@ -42,16 +42,18 @@ class Commande
      */
     private $address;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=client::class, inversedBy="commandes")
-     */
-    private $client;
+
 
     /**
      * @ORM\OneToOne(targetEntity=payement::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $payement;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="commandes")
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -118,17 +120,7 @@ class Commande
         return $this;
     }
 
-    public function getClient(): ?client
-    {
-        return $this->client;
-    }
 
-    public function setClient(?client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getPayement(): ?payement
     {
@@ -138,6 +130,18 @@ class Commande
     public function setPayement(payement $payement): self
     {
         $this->payement = $payement;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
