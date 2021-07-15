@@ -30,7 +30,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ["client"];
 
     /**
      * @var string The hashed password
@@ -57,6 +57,39 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=PanierAchat::class, mappedBy="user")
      */
     private $panierAchats;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $cin;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $telephone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fullname;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_active = 1;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthdate;
+
+
+
 
     public function __construct()
     {
@@ -266,4 +299,84 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getCin(): ?string
+    {
+        return $this->cin;
+    }
+
+    public function setCin(string $cin): self
+    {
+        $this->cin = $cin;
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?int
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(int $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getFullname(): ?string
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname(string $fullname): self
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
+
+        return $this;
+    }
+
+
+//    public function getBirthdate(): ?\DateTimeInterface
+//    {
+//        return $this->birthdate;
+//    }
+//
+//    public function setBirthdate(\DateTimeInterface $dateNaiss): self
+//    {
+//        $this->birthdate = $birthdate;
+//
+//        return $this;
+//    }
+
+public function getBirthdate(): ?\DateTimeInterface
+{
+    return $this->birthdate;
+}
+
+public function setBirthdate(\DateTimeInterface $birthdate): self
+{
+    $this->birthdate = $birthdate;
+
+    return $this;
+}
 }
