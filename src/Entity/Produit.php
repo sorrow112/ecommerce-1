@@ -47,54 +47,10 @@ class Produit
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="produit")
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="produit", cascade="persist")
      */
     private $documents;
 
-    /**
-     * @var
-     */
-    private $path;
-
-    /**
-     * @Vich\UploadableField(mapping="documents",  fileNameProperty="path")
-     */
-    private $uploadedFile;
-
-    /**
-     * @return mixed
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @param mixed $path
-     */
-    public function setPath($path): void
-    {
-        $this->path = $path;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUploadedFile()
-    {
-        return $this->uploadedFile;
-    }
-
-    /**
-     * @param mixed $uploadedFile
-     */
-    public function setUploadedFile($uploadedFile): void
-    {
-        $this->uploadedFile = $uploadedFile;
-        if($uploadedFile){
-            $this->updatedAt = new \DateTime();
-        }
-    }
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="produits")
@@ -161,37 +117,36 @@ class Produit
         return $this;
     }
 
-    /**
-     * @return Collection|Document[]
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
+//    /**
+//     * @return Collection|Document[]
+//     */
+//    public function getDocuments(): Collection
+//    {
+//        return $this->documents;
+//    }
+//
+//    public function addDocument(Document $document): self
+//    {
+//
+//        if (!$this->documents->contains($document)) {
+//            $this->documents[] = $document;
+//            $document->setProduit($this);
+//        }
+//
+//        return $this;
+//    }
 
-    public function addDocument(string $path): self
-    {
-        $document = new Document();
-        $document->setPath($path);
-        if (!$this->documents->contains($document)) {
-            $this->documents[] = $document;
-            $document->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(Document $document): self
-    {
-        if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
-            if ($document->getProduit() === $this) {
-                $document->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
+//    public function removeDocument(Document $document): self
+//    {
+//        if ($this->documents->removeElement($document)) {
+//            // set the owning side to null (unless already changed)
+//            if ($document->getProduit() === $this) {
+//                $document->setProduit(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
     public function getSousCategorie(): ?SousCategorie
     {
@@ -220,6 +175,36 @@ public function setUpdatedAt(\DateTimeInterface $updatedAt): self
 public function setSousCategorie(?SousCategorie $sous_categorie): self
 {
     $this->sous_categorie = $sous_categorie;
+
+    return $this;
+}
+
+/**
+ * @return Collection|Document[]
+ */
+public function getDocuments(): Collection
+{
+    return $this->documents;
+}
+
+public function addDocument(Document $document): self
+{
+    if (!$this->documents->contains($document)) {
+        $this->documents[] = $document;
+        $document->setProduit($this);
+    }
+
+    return $this;
+}
+
+public function removeDocument(Document $document): self
+{
+    if ($this->documents->removeElement($document)) {
+        // set the owning side to null (unless already changed)
+        if ($document->getProduit() === $this) {
+            $document->setProduit(null);
+        }
+    }
 
     return $this;
 }

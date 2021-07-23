@@ -31,7 +31,9 @@ easy_admin:
           - prix
           - description
           - {type: 'group', icon: 'clip', label: 'attachments', css_class: 'col-lg-5'}
-          - {property: 'uploadedFile', type: 'vich_image'}
+#          - {property: 'uploadedFile', type: 'vich_image'}
+          - {property: 'documents', type: 'collection', type_options: {entry_type: 'App\Form\DocType', by_reference: false }}
+
 
       list:
         collapse_actions: true
