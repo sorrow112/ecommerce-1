@@ -1,5 +1,7 @@
 # config/packages/easy_admin.yaml
 easy_admin:
+  user:
+    name_property_path: 'fullname'
   design:
     menu:
       - {label: "Entities"}
