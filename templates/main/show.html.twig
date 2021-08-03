@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+            <div class="row">
+            {% for product in products %}
+                <div class="col-md-3 col-sm-6">
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text text-center">{{ product.nom }}</p>
+                        </div>
+                        <img src={{"/uploads/files/" ~ product.thumbnail}} alt="">
+                        <div class="card-body">
+                            <p class="card-text text-center">{{ product.prix }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="{{ path('cart_add', {'id': product.id, 'catID': cat}) }}" class="btn btn-success float-right">add to cart</a>
+                </div>
+                {% endfor %}
+                
+            </div>
+        {% endblock %}

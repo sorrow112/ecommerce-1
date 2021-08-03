@@ -1,0 +1,29 @@
+{% if items | length > 0 %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>produit</th>
+            <th>prix</th>
+            <th>quantité</th>
+            <th>total</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.product.nom }}</td>
+                <td>{{ item.product.quantit }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.prix * item.quantity }}</td>
+                <td>
+                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+

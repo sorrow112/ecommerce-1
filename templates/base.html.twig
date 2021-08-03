@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <body>
+        {% endblock %}
+        {% block header %}{% include('home/header.html.twig') %}{% endblock %}
+        {% block categories %}
+        <table>
+            <tr>
+
+                {% for category in categories %}
+                    <td>
+                        <div class="dropdown" >
+                            <button class="btn btn-secondary dropdown-toggle"
+                                    type="button" id="dropdownMenu1" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                {{ category.nom }}
+                            </button>
+                            <div class="dropdown-menu" x-placement="right-start" style="position: absolute;
+                transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                {% for souscat in souscats %}
+                                    {% if souscat.categorie.id == category.id %}
+                                        <a class="dropdown-item" href="#">{{ souscat.nom }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                {% endfor %}
+            </tr>
+        </table>
+        {% endblock %}
+        {% block panier %}{% include('home/panier.html.twig') %}{% endblock %}
+
+        {% include "home/footer.html.twig" %}
+        {% block body %}{% endblock %}
+    </body>
+</html>

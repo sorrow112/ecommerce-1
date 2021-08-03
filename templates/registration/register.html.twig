@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Register</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="/css/loginstyle.css">
+</head>
+
+{% block body %}
+    <body>
+        
+
+    <div class="sidenav">
+             <div class="login-main-text">
+                <h2>Page d'inscription</h2>
+                <p>Remplissez la forme pour créer un compte.</p>
+             </div>
+            </div>
+            <div class="main">
+    <div class="col-md-6 colcm-12">
+        <div class="register-form">
+    <h1>Register</h1>
+<br><br>
+    {{ form_start(registrationForm) }}
+    
+    <div class="form-group">{{ form_label(registrationForm.fullname) }}
+        <div class="form-control ">{{ form_widget(registrationForm.fullname) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.username) }}
+        <div class="form-control">{{ form_widget(registrationForm.username) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.birthdate) }}
+        <div class="form-control">{{ form_widget(registrationForm.birthdate) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.telephone) }}
+        <div class="form-control">{{ form_widget(registrationForm.telephone) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.email) }}
+        <div class="form-control">{{ form_widget(registrationForm.email) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.plainPassword) }}
+        <div class="form-control">{{ form_widget(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.cin) }}
+<div class="form-control">{{ form_widget(registrationForm.cin) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.pays) }}
+        <div class="form-control">{{ form_widget(registrationForm.pays) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.ville) }}
+        <div class="form-control">{{ form_widget(registrationForm.ville) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.quartier) }}
+        <div class="form-control">{{ form_widget(registrationForm.quartier) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.zipcode) }}
+        <div class="form-control">{{ form_widget(registrationForm.zipcode) }}</div></div>
+    
+    <br>
+    <div class="form-group">{{ form_label(registrationForm.numero_de_residance) }}
+        <div class="form-control">{{ form_widget(registrationForm.numero_de_residance) }}</div></div>
+        <br>
+    <div class="form-group"><label for="registration_form_agreeTerms">Aceepter les conditions</label>
+        {{ form_widget(registrationForm.agreeTerms) }}</div>
+    
+
+<br><br>
+    <button type="submit" class="btn">Soumettre</button>
+<br><br><br><br>
+
+    {{ form_end(registrationForm) }}
+    </div>
+</div>
+</body>
+
+{% endblock %}
+</html>
