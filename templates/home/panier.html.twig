@@ -1,6 +1,8 @@
+<link rel="stylesheet" href="/css/panierstyle.css">
+
 {% if items | length > 0 %}
-    <table class="table">
-        <thead>
+    <table class="table panier">
+        <thead class="thead-dark">
         <tr>
             <th>produit</th>
             <th>prix</th>
@@ -13,7 +15,7 @@
         {% for item in items %}
             <tr>
                 <td>{{ item.product.nom }}</td>
-                <td>{{ item.product.quantit }}</td>
+                <td>{{ item.product.prix }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.product.prix * item.quantity }}</td>
                 <td>

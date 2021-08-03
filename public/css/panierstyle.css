@@ -1,0 +1,11 @@
+
+.panier {
+    height: 30%;
+
+    margin-right: 0%;
+    margin-left: auto;
+    overflow-x: hidden;
+    float: right;
+    padding-top: 20px;
+    width: 20% !important;
+}

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProduitRepository;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use App\Entity\Categorie;
+use App\Entity\categorie;
 use App\Entity\Produit;
 use App\Entity\SousCategorie;
 class MainController extends AbstractController
@@ -20,7 +20,7 @@ class MainController extends AbstractController
 
 
     function getCategory(){
-        $repository = $this->getDoctrine()->getRepository(Categorie::class);
+        $repository = $this->getDoctrine()->getRepository(categorie::class);
         $categories = $repository->findAll();
         return $categories;
     }
@@ -34,7 +34,26 @@ class MainController extends AbstractController
         $produit = $repository->findAll();
         return $produit;
     }
+    /** 
+    * @Route("/contactus", name="contact")
+    */
+    public function contactus(SessionInterface $session ,ProduitRepository $produitRepository): Response{
+        $souscat = $this->getSousCat();
+        $categories = $this->getCategory();
+        $panierWithData = $this->getPanier($session, $produitRepository);
+        if ($this->getUser() == null) {
+            return $this->render('main/contactus.html.twig', ['user' => '', 'categories' => $categories, 'souscats' => $souscat,'items'=> []]);
 
+        } else {
+            return $this->render('main/contactus.html.twig', [
+                'user' => $this->getUser(),
+                'categories' => $categories,
+                'souscats' => $souscat,
+                'items' => $panierWithData
+                
+            ]);
+        }
+    }
     /**
      * @Route("/", name="root")
      */
