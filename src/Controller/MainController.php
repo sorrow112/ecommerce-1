@@ -11,8 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProduitRepository;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use App\Entity\categorie;
+use App\Entity\PanierAchat;
 use App\Entity\Produit;
 use App\Entity\SousCategorie;
+use Doctrine\ORM\EntityManager;
+
 class MainController extends AbstractController
 {
 
@@ -54,6 +57,40 @@ class MainController extends AbstractController
             ]);
         }
     }
+    /**
+     * @Route("/submitpanel", name="submitpanel")
+     */
+
+    public function submitpanel(SessionInterface $session ,ProduitRepository $produitRepository){
+        $panierWithData = $this->getPanier($session, $produitRepository);
+        $panier = $session->get('panier',[]);
+        $produits=[];
+        foreach ($panier as $id => $quantity){
+            $produits[]=[
+                'product' => $produitRepository->find($id)->getId(),
+                'quantity' => $quantity,
+            ];
+
+        }
+        $souscat = $this->getSousCat();
+        $categories = $this->getCategory();
+        $panier = new PanierAchat();
+        $panier->setDateDeCreation(new \DateTime());
+        $panier->setProduits($produits);
+        $panier->setUser($this->getUser());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($panier);
+        $entityManager->flush();
+        return $this->render('main/index.html.twig', [
+            'user' => $this->getUser(),
+            'items' => $panierWithData,
+            'categories' => $categories,
+            'souscats' => $souscat,
+                
+        ]);
+        
+    }
+
     /**
      * @Route("/", name="root")
      */
@@ -107,7 +144,7 @@ class MainController extends AbstractController
             //            affichage de panier
             $panierWithData = $this->getPanier($session, $produitRepository);
 //            ...
-
+            
             if ($this->getUser() == null) {
                 return $this->render('main/show.html.twig', ['user' => '', 'categories' => $categories, 'souscats' => $souscat, 'products' => $products,
                 'items'=> []]);

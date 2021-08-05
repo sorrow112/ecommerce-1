@@ -34,6 +34,11 @@ class PanierAchat
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $produits = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +78,18 @@ class PanierAchat
     public function setUser(?user $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProduits(): ?array
+    {
+        return $this->produits;
+    }
+
+    public function setProduits(array $produits): self
+    {
+        $this->produits = $produits;
 
         return $this;
     }
