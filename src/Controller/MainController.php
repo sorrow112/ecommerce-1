@@ -63,15 +63,8 @@ class MainController extends AbstractController
 
     public function submitpanel(SessionInterface $session ,ProduitRepository $produitRepository){
         $panierWithData = $this->getPanier($session, $produitRepository);
-        $panier = $session->get('panier',[]);
-        $produits=[];
-        foreach ($panier as $id => $quantity){
-            $produits[]=[
-                'product' => $produitRepository->find($id)->getId(),
-                'quantity' => $quantity,
-            ];
+        $produits = $session->get('panier',[]);
 
-        }
         $souscat = $this->getSousCat();
         $categories = $this->getCategory();
         $panier = new PanierAchat();
@@ -81,7 +74,7 @@ class MainController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($panier);
         $entityManager->flush();
-        return $this->render('main/index.html.twig', [
+        return $this->render('main/submitpanel.html.twig', [
             'user' => $this->getUser(),
             'items' => $panierWithData,
             'categories' => $categories,

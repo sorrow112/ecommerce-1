@@ -1,1 +1,5 @@
 {% include "base.html.twig" %}
+
+{% block body %}
+    <h3>payer via e-dinar</h3> <a href="{{ path('cart_add', {'id': product.id, 'catID': cat}) }}"></a>
+{% endblock %}
