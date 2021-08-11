@@ -1,31 +1,29 @@
 <?php
-
 namespace App\Form;
 
-use App\Entity\Adresse;
-//use App\Entity\User;
+use App\Paymentlocal;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-class adressFormType extends AbstractType
+class paymentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $builder
-            ->add('pays')
-            ->add('ville')
-            ->add('quartier')
-            ->add('zipcode')
-            ->add('numero_de_residance');
-            }
-
-
+        ->add("nom",TextType::class)
+        ->add("prenom",TextType::class)
+        ->add("numeroDeCarte",Integer::class)
+        ->add("CW",TextType::class)
+        ->add("MMYY",Integer::class)
+        ;
+        
+    }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Adresse::class,
+            'data_class' => Paymentlocal::class,
         ]);
     }
 }

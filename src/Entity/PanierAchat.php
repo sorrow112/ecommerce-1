@@ -39,6 +39,11 @@ class PanierAchat
      */
     private $produits = [];
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $montant;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +95,18 @@ class PanierAchat
     public function setProduits(array $produits): self
     {
         $this->produits = $produits;
+
+        return $this;
+    }
+
+    public function getMontant(): ?float
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(float $montant): self
+    {
+        $this->montant = $montant;
 
         return $this;
     }

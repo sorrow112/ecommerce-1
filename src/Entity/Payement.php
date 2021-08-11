@@ -32,6 +32,11 @@ class Payement
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numeroDeCarte;
+
 
 
     public function getId(): ?int
@@ -71,6 +76,18 @@ class Payement
     public function setUser(?user $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNumeroDeCarte(): ?int
+    {
+        return $this->numeroDeCarte;
+    }
+
+    public function setNumeroDeCarte(int $numeroDeCarte): self
+    {
+        $this->numeroDeCarte = $numeroDeCarte;
 
         return $this;
     }

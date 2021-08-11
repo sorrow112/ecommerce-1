@@ -11,10 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProduitRepository;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use App\Entity\categorie;
+use App\Entity\Commande;
 use App\Entity\PanierAchat;
+use App\Entity\Payement;
 use App\Entity\Produit;
 use App\Entity\SousCategorie;
+use App\Form\paymentType;
+use App\Paymentlocal;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManager;
+use phpDocumentor\Reflection\Types\Integer;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends AbstractController
 {
@@ -62,25 +71,23 @@ class MainController extends AbstractController
      */
 
     public function submitpanel(SessionInterface $session ,ProduitRepository $produitRepository){
-        $panierWithData = $this->getPanier($session, $produitRepository);
         $produits = $session->get('panier',[]);
-
+        $total=0;
+        foreach ($produits as $id => $quantity) {
+            $total = $total + ($produitRepository->find($id)->getPrix()*$quantity);
+        }
         $souscat = $this->getSousCat();
         $categories = $this->getCategory();
         $panier = new PanierAchat();
         $panier->setDateDeCreation(new \DateTime());
         $panier->setProduits($produits);
+        $panier->setMontant($total);
         $panier->setUser($this->getUser());
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($panier);
         $entityManager->flush();
-        return $this->render('main/submitpanel.html.twig', [
-            'user' => $this->getUser(),
-            'items' => $panierWithData,
-            'categories' => $categories,
-            'souscats' => $souscat,
-                
-        ]);
+        return $this->redirectToRoute('payment'
+        );
         
     }
 
@@ -105,11 +112,57 @@ class MainController extends AbstractController
             ]);
         }
     }
+    /**
+     * @Route("/payment", name="payment")
+     */
+    public function payement(SessionInterface $session ,ProduitRepository $produitRepository): Response
+    {
+        $souscat = $this->getSousCat();
+        $categories = $this->getCategory();
+        $panierWithData = $this->getPanier($session, $produitRepository);
+
+
+            return $this->render('main/payment.html.twig', [
+                'user' => $this->getUser(),
+                'categories' => $categories,
+                'souscats' => $souscat,
+                'items' => $panierWithData
+                
+            ]);
+
+    }
+        /**
+     * @Route("/paypal", name="paypal")
+     */
+    public function edinar(Request $request, SessionInterface $session ,ProduitRepository $produitRepository): Response
+    {
+        $panierWithData = $this->getPanier($session, $produitRepository);
+        $souscat = $this->getSousCat();
+        $categories = $this->getCategory();
+        $produits = $session->get('panier',[]);
+        $allData = new Paymentlocal();
+        $form = $this->createForm(paymentType::class, $allData);
+        $form->handleRequest($request);
+        $payment = new Payement();
+        $commande = new Commande();
+        if ($form->isSubmitted() && $form->isValid() ) {        
+            $payment->setDatePay(new \DateTime());
+            $payment->setUser($this->getUser());
+            $payment->setNumeroDeCarte($allData->getNumeroDeCarte());
+        }
+
+            return $this->render('main/paypal.html.twig', [
+                'user' => $this->getUser(),
+                'categories' => $categories,
+                'souscats' => $souscat,
+                'items' => $panierWithData
+                
+            ]);
+
+    }
 
         function getPanier(SessionInterface $session, ProduitRepository $produitRepository){
             
-            
-            $products = $this->getAllProds();
             $panier = $session->get('panier',[]);
             $panierWithData = [];
             foreach ($panier as $id => $quantity){
@@ -128,13 +181,9 @@ class MainController extends AbstractController
         public function showall(int $souscatID, SessionInterface $session, ProduitRepository $produitRepository): Response
         {
 
-            $repository = $this->getDoctrine()->getRepository(Produit::class);
-            
             $categories = $this->getCategory();
             $souscat = $this->getSousCat();
             $products = $produitRepository->findProducts($souscatID);
-
-            //            affichage de panier
             $panierWithData = $this->getPanier($session, $produitRepository);
 //            ...
             

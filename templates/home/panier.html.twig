@@ -12,12 +12,14 @@
         </tr>
         </thead>
         <tbody>
+        {% set total = 0 %}
         {% for item in items %}
             <tr>
                 <td>{{ item.product.nom }}</td>
                 <td>{{ item.product.prix }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.product.prix * item.quantity }}</td>
+                {% set total = total + item.product.prix * item.quantity %}
                 <td>
                     <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
 
@@ -25,6 +27,12 @@
             </tr>
 
         {% endfor %}
+            <tr>
+            <td></td>
+            <td></td>
+                <td>total:</td>
+                <td>{{ total }}</td>
+            </tr>
         </tbody>
     </table>
     <a href="{{ path('submitpanel') }}" class="btn btn-dark">soumettre</a>
